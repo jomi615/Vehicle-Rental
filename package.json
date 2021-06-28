@@ -1,0 +1,31 @@
+{
+  "name": "vehicle-rental",
+  "version": "1.0.0",
+  "description": "project",
+  "main": "app.js",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "hbs": "^4.1.2",
+    "jsonfile": "^6.1.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbathtub22/Vehicle-Rental.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jbathtub22/Vehicle-Rental/issues"
+  },
+  "homepage": "https://github.com/jbathtub22/Vehicle-Rental#readme"
+}

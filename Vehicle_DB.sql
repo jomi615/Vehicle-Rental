@@ -68,6 +68,11 @@ CONSTRAINT FK_to FOREIGN KEY (to_user) references User(userID),
 CONSTRAINT PK_message PRIMARY KEY (from_user, to_user, date_time)
 );
 
+ALTER USER 'minh' IDENTIFIED WITH mysql_native_password BY 'gmgmxjmjm';
+flush privileges;
+
+
+
 
 
 
