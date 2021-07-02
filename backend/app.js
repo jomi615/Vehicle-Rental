@@ -1,6 +1,6 @@
 const express = require("express");
 var login = require('./routes/loginroutes');
-var app = express(); 
+var app = express();
 
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());

@@ -1,21 +1,15 @@
-var mysql = require('mysql');
-function getConnection ()
-{
-  const options = 
-  {  
-    host: "34.126.145.4", //IP address of my Cloud SQL Server
-    user: 'root',
-    password: 'gmgmxjmjm22',
-    database: 'Vehicle'
-  };
-  return mysql.createConnection(options);
-}
+var mysql = require('mysql2');
+var db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'johnnminh1122',
+  database: 'Vehicle'
+});
 
-db = getConnection(); 
 //connect
 db.connect(function(err){
-    if (err) throw err;
-    console.log("Connected!");
+  if (err) throw err;
+  console.log("Connected!");
 });
 
 
