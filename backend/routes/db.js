@@ -12,5 +12,5 @@ var db = mysql.createConnection(config);
     console.log("Connected!");
   });
 module.exports={
-    db
+    db: mysql.createConnection(config)
 } 

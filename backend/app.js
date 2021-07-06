@@ -1,5 +1,6 @@
 const express = require("express");
 var login = require('./routes/loginroutes');
+
 var app = express();
 
 app.use(express.urlencoded({ extended: true}));
@@ -17,8 +18,10 @@ router.get('/', function(req, res) {
   res.json({ message: 'welcome to our upload module apis' });
 });
 
+const vehicleAdding = require('./routes/vehiclelist');
 //route to handle user registration
 router.post('/register',login.register);
-router.post('/login',login.login)
+router.post('/login',login.login);
 app.use('/api', router);
+app.use('/vehicleAdd', vehicleAdding);
 app.listen(4000);
