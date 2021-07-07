@@ -71,6 +71,42 @@ Vehicle.getVehicleID = (vehicleID, result) => {
             result({ kind: "not_found" }, null);
     })
 }
+
+Vehicle.removeVehicle = (vehicleID, result) =>{
+  connect.query("DELETE FROM Vehicle WHERE vehicleID = ? ", vehicleID, (err, res)=>{
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    if (res.affectedRows == 0) {
+      // not found Customer with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    console.log("deleted vehicle with id: ", vehicleID);
+    result(null, res);
+  })
+}
+
+router.delete('/:id', function(req, res){
+  Vehicle.removeVehicle(req.params.id, (err, data)=>{
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found vehicle with id ${req.params.id}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete vehicle with id " + req.params.id
+        });
+      }
+    } else res.send({ message: `vehicle was deleted successfully!` });
+  })
+})
+
 router.get('/', function(req,res){
     Vehicle.showVehicle((err, data) => {
         if (err)
@@ -96,14 +132,6 @@ router.get('/:id', function(req,res){
             }
           } else res.send(data);
     })
-    /*let vehicle_id = req.params.id;
-     if (!vehicle_id) {
-      return res.status(400).send({ error: true, message: 'Please provide vehicle_id' });
-     }
-     connect.query('SELECT * FROM Vehicle where vehicleID=?', vehicle_id, function (error, results, fields) {
-      if (error) throw error;
-       return res.send({ error: false, data: results[0], message: 'users list.' });
-     });*/
 })
 
 module.exports = router; 
