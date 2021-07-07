@@ -1,3 +1,4 @@
+const { response } = require("express");
 const express = require("express");
 var login = require('./routes/loginroutes');
 
@@ -14,10 +15,12 @@ app.use(function(req, res, next) {
 var router = express.Router();
 
 //test router
-router.get('/', function(req, res) {
+/*router.get('/', function(req, res) {
   res.json({ message: 'welcome to our upload module apis' });
-});
-
+});*/
+app.get('/', function (req, res){
+  res.json({message: "Hello bitches!!!"});
+})
 const vehicleAdding = require('./routes/vehiclelist');
 //route to handle user registration
 router.post('/register',login.register);
