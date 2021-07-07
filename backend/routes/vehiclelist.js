@@ -55,7 +55,7 @@ Vehicle.showVehicle = result =>{
 }
 
 Vehicle.getVehicleID = (vehicleID, result) => {
-    connect.query(`SELECT*FROM Vehicle WHERE vehicleID = ${vehicleID}`, (err, res)=>
+    connect.query(`SELECT*FROM Vehicle WHERE Vehicle.vehicleID = ${vehicleID}`, (err, res)=>
     {
         if (err) {
             console.log("error: ", err);
@@ -83,19 +83,27 @@ router.get('/', function(req,res){
 })
 
 router.get('/:id', function(req,res){
-    Vehicle.getVehicleID(req.params.vehicleID, (err,data)=>{
+    Vehicle.getVehicleID(req.params.id, (err,data)=>{
         if (err) {
             if (err.kind === "not_found") {
               res.status(404).send({
-                message: `Not found Vehicle with id ${req.params.vehicleID}.`
+                message: `Not found Vehicle with id ${req.params.id}.`
               });
             } else {
               res.status(500).send({
-                message: "Error retrieving Vehicle with id " + req.params.vehicleID
+                message: "Error retrieving Vehicle with id " + req.params.id
               });
             }
           } else res.send(data);
     })
+    /*let vehicle_id = req.params.id;
+     if (!vehicle_id) {
+      return res.status(400).send({ error: true, message: 'Please provide vehicle_id' });
+     }
+     connect.query('SELECT * FROM Vehicle where vehicleID=?', vehicle_id, function (error, results, fields) {
+      if (error) throw error;
+       return res.send({ error: false, data: results[0], message: 'users list.' });
+     });*/
 })
 
 module.exports = router; 
