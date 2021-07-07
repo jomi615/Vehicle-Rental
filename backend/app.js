@@ -27,4 +27,5 @@ router.post('/register',login.register);
 router.post('/login',login.login);
 app.use('/api', router);
 app.use('/vehicleAdd', vehicleAdding);
+app.use('/vehicleDelete', )
 app.listen(4000);

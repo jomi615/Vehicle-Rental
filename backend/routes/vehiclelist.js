@@ -91,6 +91,47 @@ Vehicle.removeVehicle = (vehicleID, result) =>{
   })
 }
 
+Vehicle.updateById=(vehicleID, host, result)=>{
+  connect.query("UPDATE Vehicle SET price = ?, vehicle_name = ?, vehicle_type = ?, vehicle_description = ?, address = ?, start_date = ?, end_date = ?, total_quantity = ? WHERE vehicleID = ?",
+  [host.price, host.vehicle_name, host.vehicle_type, host.vehicle_description, host.address, host.start_date, host.end_date, host.total_quantity, vehicleID],
+  (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    if (res.affectedRows == 0) {
+      // not found Customer with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    console.log("updated customer: ", { vehicleID: vehicleID, ...host });
+    result(null, { vehicleID: vehicleID, ...host });
+})
+}
+
+router.put('/:updateByID', (req, res)=>{
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  Vehicle.updateById (req.params.updateByID, new Vehicle(req.body), (err, data)=>{
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Vehicle with id ${req.params.updateByID}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error updating Vehicle with id " + req.params.updateByID
+        });
+      }
+    } else res.send(data);
+  })
+})
+
 router.delete('/:id', function(req, res){
   Vehicle.removeVehicle(req.params.id, (err, data)=>{
     if (err) {
