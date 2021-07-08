@@ -41,6 +41,80 @@ Users.getID = (user_id, result)=>{
   })
 }
 
+Users.removeUser = (user_id, result)=>{
+  connect.query("DELETE FROM User WHERE userID = ?", user_id, (err,res)=>{
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    if (res.affectedRows == 0) {
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    console.log("deleted vehicle with id: ", user_id);
+    result(null, res);
+  })
+}
+
+Users.updateUser = (user_id,user, result)=>{
+  connect.query("UPDATE User SET fname = ?, lname = ?, email = ?, pass = ?, phone = ?, username = ? WHERE userID = ?",
+  [user.fname, user.lname, user.email, user.pass, user.phone, user.username, user_id],
+  (err, res)=>{
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    if (res.affectedRows == 0) {
+      // not found Customer with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+    console.log("updated customer: ", { user_id: user_id, ...user });
+    result(null, { user_id: user_id, ...user });
+  })
+}
+
+router.put('/:user_id', function(req,res){
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  Users.updateUser (req.params.user_id, new Users(req.body), (err, data)=>{
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found User with id ${req.params.user_id}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error updating User with id " + req.params.user_id
+        });
+      }
+    } else res.send(data);
+  })
+})
+
+router.delete('/:user_id', function(req,res){
+  Users.removeUser(req.params.user_id, (err, data)=>{
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found User with id ${req.params.user_id}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete User with id " + req.params.user_id
+        });
+      }
+    } else res.send({ message: `User was deleted successfully!` });
+  })
+})
+
 router.get('/', function(req,res){
   Users.getAll((err, data)=>{
     if(err)
