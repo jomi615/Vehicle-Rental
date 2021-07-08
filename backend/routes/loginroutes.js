@@ -1,7 +1,9 @@
+const app = require('express');
+const router = app.Router();
 var bcrypt = require('bcryptjs');
 var config = require('./db.js');
 var connect = config.db;
-exports.register = function(req,res){
+router.post('/api/register', function(req,res){
   //const password = await req.body.password;
   //const saltRounds = 10;
   //const encryptedPassword = bcrypt.hash(password, saltRounds)
@@ -13,7 +15,6 @@ exports.register = function(req,res){
      "phone": req.body.phone,  
      "username": req.body.username    
    }
-
    connect.query('INSERT INTO User SET ?',users, function (error, results, fields) {
     if (error) {
       res.send({
@@ -26,10 +27,10 @@ exports.register = function(req,res){
         "success":"user registered sucessfully"
           });
       }
-  });
-}
+    })
+})
 
-exports.login = function(req,res){
+router.post('/api/login', function(req,res){
   var username= req.body.username;
   var password = req.body.pass;
   connect.query('SELECT * FROM User WHERE username = ?',[username],  function (error, results, fields) {
@@ -62,4 +63,5 @@ exports.login = function(req,res){
       }
     }
     });
-}
+})
+module.exports = router; 
