@@ -121,7 +121,7 @@ router.delete('/:id', function(req, res){
   })
 })
 
-router.get('/', function(req,res){
+router.get('/vehicleAdd', function(req,res){
     Vehicle.showVehicle((err, data) => {
         if (err)
           res.status(500).send({
@@ -132,7 +132,7 @@ router.get('/', function(req,res){
       });
 })
 
-router.get('/:id', function(req,res){
+router.get('/vehicleAdd/:id', function(req,res){
     Vehicle.getVehicleID(req.params.id, (err,data)=>{
         if (err) {
             if (err.kind === "not_found") {

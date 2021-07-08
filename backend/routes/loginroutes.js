@@ -115,7 +115,7 @@ router.delete('/:user_id', function(req,res){
   })
 })
 
-router.get('/', function(req,res){
+router.get('/Users', function(req,res){
   Users.getAll((err, data)=>{
     if(err)
     res.status(500).send({
@@ -126,7 +126,7 @@ router.get('/', function(req,res){
   })
 })
 
-router.get('/:user_id', function(req,res){
+router.get('/Users/:user_id', function(req,res){
   Users.getID(req.params.user_id, (err, data)=>{
     if(err){
       if(err.kind === "not_found"){
@@ -203,7 +203,5 @@ router.post('/api/login', function(req,res){
     }
     });
 })
-
-
 
 module.exports = router; 

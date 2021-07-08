@@ -12,9 +12,9 @@ app.use(function(req, res, next) {
 });
 const vehicleAdding = require('./routes/vehiclelist');
 const login = require('./routes/loginroutes');
-
+const rental = require('./routes/rental');
 //route to handle user registration
 app.use('/', login);
-app.use('/vehicleAdd', vehicleAdding);
-app.use('/vehicleDelete',vehicleAdding )
+app.use('/', rental); 
+app.use('/', vehicleAdding);
 app.listen(4000);
