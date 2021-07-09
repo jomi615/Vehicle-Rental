@@ -22,6 +22,141 @@ connect.query("INSERT INTO Rent SET ?", newRental, (err,res)=>{
     });
 }
 
+Rent.getRentByUserID = (user_id, result)=>{
+  connect.query(`SELECT*FROM Rent WHERE renter = ${user_id}`, (err,res)=>{
+    if(err){
+      console.log("error: ", err);
+      result(err, null);
+      return; 
+    }
+    if(res.length){
+      console.log("found rentals: ", res);
+      result(null, res);
+      return;
+    }
+    result({ kind: "not_found" }, null);
+  })
+}
+Rent.getRentByVehicleID = (vehicle_id, result)=>{
+  connect.query(`SELECT*FROM Rent WHERE vehicle_rented = ${vehicle_id}`, (err,res)=>{
+    if(err){
+      console.log("error: ", err);
+      result(err, null);
+      return; 
+    }
+    if(res.length){
+      console.log("found rentals: ", res);
+      result(null, res);
+      return;
+    }
+    result({ kind: "not_found" }, null);
+  })
+}
+
+Rent.removeRentalByID = (vehicle_id,result)=>{
+  connect.query("DELETE FROM Rent WHERE vehicle_rented = ?", vehicle_id, (err, res)=>{
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    if (res.affectedRows == 0) {
+      result({ kind: "not_found" }, null);
+      return;
+    }
+    console.log("deleted rental hitsory of vehicle with id: ", vehicle_id);
+    result(null, res);
+  })
+}
+Rent.updateRental = (vehicle_id, enddate, user_rent , rent_er, result)=>{
+  connect.query("UPDATE Rent SET renter = ?, vehicle_rented = ?, end_date = ?, start_date = ?, rent_quantity = ? WHERE renter = ? AND vehicle_rented = ? AND end_date = ? ",
+  [rent_er.renter, rent_er.vehicle_rented, rent_er.end_date, rent_er.start_date, rent_er.rent_quantity,user_rent,vehicle_id,enddate], 
+  (err, res)=>{
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    if (res.affectedRows == 0) {
+      result({ kind: "not_found" }, null);
+      return;
+    }
+    console.log("updated customer: ", { vehicle_id: vehicle_id, enddate: enddate, user_rent: user_rent, ...rent_er });
+    result(null, { vehicle_id: vehicle_id, enddate: enddate, user_rent: user_rent, ...rent_er });
+  }
+  )
+}
+
+router.put('/updateRent/:renter_id/:vehicleid/:enddate_id', function(req,res){
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  Rent.updateRental(req.params.vehicleid,req.params.enddate_id,req.params.renter_id, new Rent(req.body), (err, data)=>{
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found row with id ${req.params.vehicleid}, ${req.params.enddate_id},${req.params.renter_id}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error updating User with id " + req.params.vehicleid + req.params.enddate_id + req.params.renter_id
+        });
+      }
+    } else res.send(data);
+})
+})
+router.delete('/removeRentedVehicle/:vehicle_id', function(req,res){
+  Rent.removeRentalByID(req.params.vehicle_id, (err,data)=>{
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found vehicle with id ${req.params.vehicle_id}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete rental with vehicleid " + req.params.vehicle_id
+        });
+      }
+    } else res.send({ message: `Rental was deleted successfully!` });
+  })
+})
+
+router.get('/rentByUser/:user_id', function(req,res){
+  Rent.getRentByUserID(req.params.user_id, (err, data)=>{
+    if(err){
+      if(err.kind === "not_found"){
+        res.status(404).send({
+          message: `No rental by user ${req.params.user_id} found`
+        })      
+      }else {
+        res.status(500).send({
+          message: "Error retrieving rentals by userid " + req.params.user_id
+        });
+      }
+    } else res.send(data);
+  })
+})
+router.get('/vehicleRent/:vehicle_id', function(req,res){
+  Rent.getRentByVehicleID(req.params.vehicle_id, (err, data)=>{
+    if(err){
+      if(err.kind === "not_found"){
+        res.status(404).send({
+          message: `No rental history of ${req.params.vehicle_id} found`
+        })      
+      }else {
+        res.status(500).send({
+          message: "Error retrieving rental history of  " + req.params.vehicle_id
+        });
+      }
+    } else res.send(data);
+  })
+})
+
+
+
 router.post('/api/newRental',function(req, res){
     // Validate request
   if (!req.body) {
