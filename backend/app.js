@@ -13,8 +13,10 @@ app.use(function(req, res, next) {
 const vehicleAdding = require('./routes/vehiclelist');
 const login = require('./routes/loginroutes');
 const rental = require('./routes/rental');
+const userReview = require('./routes/review');
 //route to handle user registration
 app.use('/', login);
 app.use('/', rental); 
+app.use('/', userReview); 
 app.use('/', vehicleAdding);
 app.listen(4000);
