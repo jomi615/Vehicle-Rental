@@ -9,6 +9,7 @@ import NavBar from './components/NavBar/AppBar';
 import RegisterPage from './components/Registration/RegisterPage';
 import LoginPage from './components/Login/LoginPage';
 import ProfilePage from './components/Profile/ProfilePage';
+import UserVehiclePage from './components/UserVehiclePage/UserVehiclePage';
 
 function App() {
   const { currentTheme } = useTheme();
@@ -28,8 +29,11 @@ function App() {
             <Route path="/login">
               <LoginPage />
             </Route>
-            <Route path="/profile">
+            <Route exact path="/profile">
               <ProfilePage />
+            </Route>
+            <Route path="/profile/:pagename">
+              <UserVehiclePage />
             </Route>
         </Router>
       </ThemeProvider>

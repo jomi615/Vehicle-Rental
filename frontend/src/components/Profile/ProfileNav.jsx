@@ -19,7 +19,7 @@ import {
     BiChevronRight
 } from 'react-icons/bi';
 import {
-    Link 
+    Link
 } from 'react-router-dom';
 import NavConfig from './navs.json';
 
@@ -30,21 +30,21 @@ const ProfileNav = () => {
         <Div my={6}>
             {cardContent.map((value, key) => {
                 return (
-                    <Link to="/">
                     <NavCard key={key}>
-                        <CardContent>
-                            <Div alignItems="center">
-                                <CardTitle>
-                                    {value.title}
-                                </CardTitle>
-                                <BiChevronRight size="2rem" />
-                            </Div>
-                            <Paragraph>
-                                {value.content}
-                            </Paragraph>
-                        </CardContent>
+                        <Link to={`/profile/${value.title.toLowerCase()}`}>
+                            <CardContent>
+                                <Div alignItems="center">
+                                    <CardTitle>
+                                        {value.title}
+                                    </CardTitle>
+                                    <BiChevronRight size="2rem" />
+                                </Div>
+                                <Paragraph>
+                                    {value.content}
+                                </Paragraph>
+                            </CardContent>
+                        </Link>
                     </NavCard>
-                    </Link>
                 )
             })}
 
