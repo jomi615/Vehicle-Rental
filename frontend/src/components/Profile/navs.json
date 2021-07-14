@@ -1,0 +1,18 @@
+[
+    {
+        "content": "Cars currently renting",
+        "title": "Renting"
+    },
+    {
+        "content": "Cars rented previously",
+        "title": "Rented"
+    },
+    {
+        "content": "Cars currently hosting",
+        "title": "Hosting"
+    },
+    {
+        "content": "Cars previously hosted",
+        "title": "Hosted"
+    }
+]

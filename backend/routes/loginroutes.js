@@ -1,9 +1,11 @@
 var mysql = require('mysql2');
+var bcrypt = require('bcryptjs');
+const saltRounds = 10;
 var db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'johnnminh1122',
-  database: 'Vehicle'
+  password: '64amyanphumyhung',
+  database: 'vehicle'
 });
 
 //connect

@@ -1,28 +1,38 @@
 import React from 'react';
 import {
-    useState,
-    useContext
+    useContext,
+    useReducer
 } from 'react';
 import { ThemeContext } from 'styled-components';
-import themes from '../styles/themes';
+import themes, {customColors} from '../styles/common/themes';
+import { createMuiTheme } from "@material-ui/core";
+
 
 export const useTheme = () => {
     return useContext(ThemeContext);
 }
 
-export const ThemeContextProvider = ({children}) => {
-    const [currentTheme, setCurrentTheme] = useState(themes['light']);
-
-    const changeTheme = (toggled) => {
-        if (toggled) {
-            return setCurrentTheme(themes['light']);
-        }
-        return setCurrentTheme(themes['dark']);
+const reducer = (theme, action) => {
+    switch(action.type) {
+        case 'changeTheme':
+            return createMuiTheme({
+                ...theme,
+                palette: {
+                    type: action.payload,
+                    ...customColors
+                }
+            })
+        default:
+            throw new Error();
     }
+}
+
+export const ThemeContextProvider = ({children}) => {
+    const [currentTheme, dispatch] = useReducer(reducer, themes);
 
     const value = {
         currentTheme,
-        changeTheme
+        dispatch
     }
 
     return (
