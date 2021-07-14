@@ -1,5 +1,5 @@
+const { response } = require("express");
 const express = require("express");
-var login = require('./routes/loginroutes');
 var app = express();
 
 app.use(express.urlencoded({ extended: true}));
@@ -10,15 +10,17 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-var router = express.Router();
-
-//test router
-router.get('/', function(req, res) {
-  res.json({ message: 'welcome to our upload module apis' });
-});
-
+const vehicleAdding = require('./routes/vehiclelist');
+const login = require('./routes/loginroutes');
+const rental = require('./routes/rental');
+const userReview = require('./routes/review');
+const vehicleReview = require('./routes/vehicle_review');
+const sendMessaging = require('./routes/messages');
 //route to handle user registration
-router.post('/register',login.register);
-router.post('/login',login.login)
-app.use('/api', router);
-app.listen(5000);
+app.use('/', login);
+app.use('/', rental); 
+app.use('/', userReview); 
+app.use('/', vehicleAdding);
+app.use('/', vehicleReview);
+app.use('/',sendMessaging )
+app.listen(4000);
