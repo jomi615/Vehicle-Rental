@@ -15,10 +15,12 @@ const login = require('./routes/loginroutes');
 const rental = require('./routes/rental');
 const userReview = require('./routes/review');
 const vehicleReview = require('./routes/vehicle_review');
+const sendMessaging = require('./routes/messages');
 //route to handle user registration
 app.use('/', login);
 app.use('/', rental); 
 app.use('/', userReview); 
 app.use('/', vehicleAdding);
 app.use('/', vehicleReview);
+app.use('/',sendMessaging )
 app.listen(4000);

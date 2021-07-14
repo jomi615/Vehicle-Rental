@@ -126,7 +126,7 @@ router.get('/vehicleAdd', function(req,res){
         if (err)
           res.status(500).send({
             message:
-              err.message || "Some error occurred while retrieving customers."
+              err.message || "Some error occurred while retrieving vehicles."
           });
         else res.send(data);
       });
