@@ -13,6 +13,17 @@ const Users = function(user){
   this.username = user.username; 
   this.userID = user.userID; 
 }
+Users.createUser = (newUser, result)=>{
+  connect.query("INSERT INTO User SET ?",newUser,(err, res)=>{
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    console.log("created customer: ", { id: res.insertId, ...newUser });
+    result(null, { id: res.insertId, ...newUser });
+  })
+}
 Users.getAll = result => {
   connect.query("SELECT*FROM User", (err, res)=>{
     if(err) {
@@ -146,26 +157,21 @@ router.post('/api/register', function(req,res){
   //const password = await req.body.password;
   //const saltRounds = 10;
   //const encryptedPassword = bcrypt.hash(password, saltRounds)
-  var users={
+  var users= new Users({
      "fname":req.body.fname, 
      "lname": req.body.lname, 
      "email":req.body.email,
      "pass": req.body.pass,
      "phone": req.body.phone,  
      "username": req.body.username    
-   }
-   connect.query('INSERT INTO User SET ?',users, function (error, results, fields) {
-    if (error) {
-      res.send({
-        "code":400,
-        "failed":"error ocurred"
-      })
-    } else {
-      res.send({
-        "code":200,
-        "success":"user registered sucessfully"
-          });
-      }
+   })
+   Users.createUser(users, (err, data)=>{
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while creating the Customer."
+      });
+    else res.send(data);
     })
 })
 
@@ -183,8 +189,7 @@ router.post('/api/login', function(req,res){
         const comparision = bcrypt.compare(password, results[0].password)
         if(comparision){
             res.send({
-              "code":200,
-              "success":"login sucessfull"
+             results
             })
         }
         else{
