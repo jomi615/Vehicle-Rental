@@ -4,7 +4,7 @@ import {
     useReducer
 } from 'react';
 import { ThemeContext } from 'styled-components';
-import themes, {customColors} from '../styles/common/themes';
+import themes, {customColors} from '../resources/themes';
 import { createMuiTheme } from "@material-ui/core";
 
 

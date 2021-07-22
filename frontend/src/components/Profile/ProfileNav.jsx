@@ -10,8 +10,8 @@ import {
     Paragraph
 } from '../../styles/common/typographies';
 import {
-    NavCard
-} from '../../styles/profile';
+    StdCard
+} from '../../styles/common/cards';
 import {
     CardContent
 } from '@material-ui/core';
@@ -21,7 +21,7 @@ import {
 import {
     Link
 } from 'react-router-dom';
-import NavConfig from './navs.json';
+import NavConfig from '../../resources/navs.json';
 
 const ProfileNav = () => {
     const [cardContent] = useState(NavConfig);
@@ -30,7 +30,7 @@ const ProfileNav = () => {
         <Div my={6}>
             {cardContent.map((value, key) => {
                 return (
-                    <NavCard key={key}>
+                    <StdCard key={key}>
                         <Link to={`/profile/${value.title.toLowerCase()}`}>
                             <CardContent>
                                 <Div alignItems="center">
@@ -44,7 +44,7 @@ const ProfileNav = () => {
                                 </Paragraph>
                             </CardContent>
                         </Link>
-                    </NavCard>
+                    </StdCard>
                 )
             })}
 

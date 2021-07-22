@@ -13,7 +13,6 @@ const UserVehiclePage = () => {
 
     return (
         <Div>
-            {pagename}
             <UserVehicleNav />
             <UserVehicleBody />
         </Div>

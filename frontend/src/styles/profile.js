@@ -3,8 +3,7 @@ import {
     Div
 } from './common/divs';
 import {
-    Avatar,
-    Card
+    Avatar
 } from '@material-ui/core';
 
 export const Banner = styled(Div)`
@@ -30,14 +29,4 @@ export const Body = styled(Div)`
 export const UserAvatar = styled(Avatar)`
     width: 10rem;
     height: 10rem;
-`
-
-export const NavCard = styled(Card)`
-    box-shadow: 0 2px 8px rgb(0 0 0 / 16%);
-    padding: .75rem;
-    border-radius: 12px;
-    margin: 0 1rem;
-    &:hover {
-        cursor: pointer;
-    }
 `

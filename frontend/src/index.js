@@ -5,12 +5,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { StylesProvider } from '@material-ui/core';
 import { ThemeContextProvider } from './contexts/themeContext';
+import { AuthProvider } from './contexts/authContext';
+import { ToastProvider } from './contexts/toastContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <StylesProvider injectFirst>
       <ThemeContextProvider>
-        <App />
+        <AuthProvider>
+          <ToastProvider>
+            <App />
+          </ToastProvider>
+        </AuthProvider>
       </ThemeContextProvider>
     </StylesProvider>
   </React.StrictMode>,
