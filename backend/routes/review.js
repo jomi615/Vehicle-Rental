@@ -100,7 +100,7 @@ Reviews.deleteReviewsById = (reviewerid, revieweeid, reviewdate, result)=>{
     result(null, res);
   })
 }
-router.put('/updateReview/:reviewer_id/:reviewee_id/:revDate', function(req, res){
+router.put('/api/review/update/:reviewer_id/:reviewee_id/:revDate', function(req, res){
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
@@ -120,7 +120,7 @@ router.put('/updateReview/:reviewer_id/:reviewee_id/:revDate', function(req, res
     } else res.send(data);
 })
 })
-router.delete('/deleteReviewesBy/:reviewer_id/:reviewee_id/:revDate', function (req, res){
+router.delete('/api/review/delete/:reviewer_id/:reviewee_id/:revDate', function (req, res){
   Reviews.deleteReviewsById(req.params.reviewer_id,req.params.reviewee_id,req.params.revDate, (err, data)=>{
     if (err) {
       if (err.kind === "not_found") {
@@ -137,7 +137,7 @@ router.delete('/deleteReviewesBy/:reviewer_id/:reviewee_id/:revDate', function (
 })
 
 //GET operations
-router.get('/getAllReview', function(req,res){
+router.get('/api/review', function(req,res){
   Reviews.getAllReview ((err,data)=>{
     if (err)
           res.status(500).send({
@@ -147,7 +147,7 @@ router.get('/getAllReview', function(req,res){
         else res.send(data);
   })
 })
-router.get('/getReviewerReviews/:reviewer_id',function(req,res){
+router.get('/api/review/reviewer/:reviewer_id',function(req,res){
   Reviews.getReviewerReview(req.params.reviewer_id, (err, data)=>{
     if(err){
       if(err.kind === "not_found"){
@@ -162,7 +162,7 @@ router.get('/getReviewerReviews/:reviewer_id',function(req,res){
     } else res.send(data);
 })
 })
-router.get('/getReviewee/:reviewee_id', function(req, res){
+router.get('/api/review/reviewee/:reviewee_id', function(req, res){
     Reviews.getRevieweeReview(req.params.reviewee_id, (err, data)=>{
         if(err){
             if(err.kind === "not_found"){
@@ -179,7 +179,7 @@ router.get('/getReviewee/:reviewee_id', function(req, res){
 })
 
 //POST operations
-router.post('/api/newReview', function(req, res){
+router.post('/api/review', function(req, res){
     if(!req.body){
         res.status(400).send({
             message: "Content can not be empty!"

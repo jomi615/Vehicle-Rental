@@ -89,7 +89,7 @@ Users.updateUser = (user_id,user, result)=>{
   })
 }
 
-router.put('/:user_id', function(req,res){
+router.put('/api/user/update/:user_id', function(req,res){
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
@@ -110,7 +110,7 @@ router.put('/:user_id', function(req,res){
   })
 })
 
-router.delete('/:user_id', function(req,res){
+router.delete('/api/user/delete/:user_id', function(req,res){
   Users.removeUser(req.params.user_id, (err, data)=>{
     if (err) {
       if (err.kind === "not_found") {
@@ -126,7 +126,7 @@ router.delete('/:user_id', function(req,res){
   })
 })
 
-router.get('/Users', function(req,res){
+router.get('/api/user', function(req,res){
   Users.getAll((err, data)=>{
     if(err)
     res.status(500).send({
@@ -137,7 +137,7 @@ router.get('/Users', function(req,res){
   })
 })
 
-router.get('/Users/:user_id', function(req,res){
+router.get('/api/user/:user_id', function(req,res){
   Users.getID(req.params.user_id, (err, data)=>{
     if(err){
       if(err.kind === "not_found"){
@@ -153,7 +153,7 @@ router.get('/Users/:user_id', function(req,res){
    })
 })
 
-router.post('/api/register', function(req,res){
+router.post('/api/user/register', function(req,res){
   //const password = await req.body.password;
   //const saltRounds = 10;
   //const encryptedPassword = bcrypt.hash(password, saltRounds)
@@ -175,7 +175,7 @@ router.post('/api/register', function(req,res){
     })
 })
 
-router.post('/api/login', function(req,res){
+router.post('/api/user/login', function(req,res){
   var username= req.body.username;
   var password = req.body.pass;
   connect.query('SELECT * FROM User WHERE username = ?',[username],  function (error, results, fields) {

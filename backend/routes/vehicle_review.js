@@ -84,7 +84,7 @@ VehicleReview.deleteReviewsById = (reviewerid, revieweeid, reviewdate, result)=>
     result(null, res);
   })
 }
-router.put('/updateVehicleReview/:reviewer_id/:vehi_id/:revDate', function(req, res){
+router.put('/api/vehiclereview/update/:reviewer_id/:vehi_id/:revDate', function(req, res){
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
@@ -104,7 +104,7 @@ router.put('/updateVehicleReview/:reviewer_id/:vehi_id/:revDate', function(req, 
     } else res.send(data);
 })
 })
-router.delete('/deleteVehicleReviewBy/:reviewer_id/:reviewee_id/:revDate', function (req, res){ VehicleReview
+router.delete('/api/vehiclereview/delete/:reviewer_id/:reviewee_id/:revDate', function (req, res){ VehicleReview
     VehicleReview.deleteReviewsById(req.params.reviewer_id,req.params.reviewee_id,req.params.revDate, (err, data)=>{
     if (err) {
       if (err.kind === "not_found") {
@@ -120,7 +120,7 @@ router.delete('/deleteVehicleReviewBy/:reviewer_id/:reviewee_id/:revDate', funct
   })
 })
 //GET operations
-router.get('/getAllVehicleReview', function(req,res){
+router.get('/api/vehiclereview', function(req,res){
   VehicleReview.getAllReview ((err,data)=>{
     if (err)
           res.status(500).send({
@@ -130,7 +130,7 @@ router.get('/getAllVehicleReview', function(req,res){
         else res.send(data);
   })
 })
-router.get('/getVehicleReviewed/:reviewed_vehicle',function(req,res){
+router.get('/api/vehiclereview/:reviewed_vehicle',function(req,res){
   VehicleReview.getVehicleReviewByID(req.params.reviewed_vehicle, (err, data)=>{
     if(err){
       if(err.kind === "not_found"){
@@ -147,7 +147,7 @@ router.get('/getVehicleReviewed/:reviewed_vehicle',function(req,res){
 })
 
 //POST operations
-router.post('/api/newVehicleReview', function(req, res){
+router.post('/api/vehiclereview', function(req, res){
     if(!req.body){
         res.status(400).send({
             message: "Content can not be empty!"
