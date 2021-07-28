@@ -9,11 +9,11 @@ import {
     Div
 } from '../../styles/common/divs';
 import {
-    StdCard
-} from '../../styles/common/cards';
+    VehicleCard
+} from '../../styles/search';
 import {
     Paragraph,
-    CardTitle
+    SectionTitle
 } from '../../styles/common/typographies';
 import {
     CardContent,
@@ -32,7 +32,7 @@ const BrowseCards = () => {
 
     return (
         <Div flexDirection="column">
-            <Div>
+            <Div m={2}>
                 <FormControl variant="outlined">
                     <InputLabel id="sort-by-label">Sort by</InputLabel>
                     <Select
@@ -50,21 +50,21 @@ const BrowseCards = () => {
                     </Select>
                 </FormControl>
             </Div>
-            <Div>
-                <StdCard>
+            <Div my={4}>
+                <VehicleCard>
                     <Link>
                         <CardContent>
                             <Div alignItems="center">
-                                <CardTitle>
+                                <SectionTitle>
                                     t
-                                </CardTitle>
+                                </SectionTitle>
                             </Div>
                             <Paragraph>
                                 p
                             </Paragraph>
                         </CardContent>
                     </Link>
-                </StdCard>
+                </VehicleCard>
             </Div>
         </Div>
     );

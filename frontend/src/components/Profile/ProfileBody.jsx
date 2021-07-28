@@ -9,11 +9,15 @@ import {
     Title,
     SubTitle
 } from '../../styles/common/typographies';
+import { useAuth } from '../../contexts/authContext';
+
 
 const ProfileBody = () => {
+    const { user } = useAuth();
+
     return (
         <Body>
-            <Title>Hi, I'm blabla</Title>
+            <Title>Hi, I'm {user.lname}</Title>
             <Div>
                 <Div>
                     <SubTitle>About</SubTitle>

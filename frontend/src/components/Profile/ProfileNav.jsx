@@ -1,12 +1,9 @@
 import React from 'react';
 import {
-    useState
-} from 'react';
-import {
     Div
 } from '../../styles/common/divs';
 import {
-    CardTitle,
+    SectionTitle,
     Paragraph
 } from '../../styles/common/typographies';
 import {
@@ -24,19 +21,18 @@ import {
 import NavConfig from '../../resources/navs.json';
 
 const ProfileNav = () => {
-    const [cardContent] = useState(NavConfig);
 
     return (
         <Div my={6}>
-            {cardContent.map((value, key) => {
+            {NavConfig.map((value, key) => {
                 return (
                     <StdCard key={key}>
                         <Link to={`/profile/${value.title.toLowerCase()}`}>
                             <CardContent>
                                 <Div alignItems="center">
-                                    <CardTitle>
+                                    <SectionTitle>
                                         {value.title}
-                                    </CardTitle>
+                                    </SectionTitle>
                                     <BiChevronRight size="2rem" />
                                 </Div>
                                 <Paragraph>

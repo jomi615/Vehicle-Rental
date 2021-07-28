@@ -18,17 +18,28 @@ export const AuthProvider = ({children}) => {
     const [user, setUser] = useState();
 
     const registerUser = async (req) => {
-        const res = await register(req);
-        return res;
+        register(req).then((res) => {
+            setUser(res.results[0])
+            return res
+        })
     }
 
     const loginUser = async (req) => {
-        const res = await login(req);
-        return res;
+        login(req).then((res) => {
+            setUser(res.results[0]);
+            return res
+        })
+    }
+
+    const logoutUser = async (req) => {
+        setUser(null);
     }
 
     const value = {
-        user
+        user,
+        registerUser,
+        loginUser,
+        logoutUser
     }
 
     return (

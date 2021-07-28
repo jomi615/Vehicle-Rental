@@ -51,7 +51,7 @@ const Searchbar = (props) => {
     }
 
     return (
-        <Div>
+        <Div m={5}>
             <FormSearch>
                 <Autocomplete
                     freeSolo

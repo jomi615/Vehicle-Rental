@@ -37,7 +37,7 @@ function App() {
             <Route exact path="/profile">
               <ProfilePage />
             </Route>
-            <Route path="/profile/:pagename">
+            <Route path="/profile/:category">
               <UserVehiclePage />
             </Route>
             <Route path="/browse">

@@ -14,7 +14,7 @@ import {
     Switch,
     Container,
     Menu,
-    MenuItem
+    MenuItem,
 } from '@material-ui/core';
 import {
     BiMenu,
@@ -22,17 +22,21 @@ import {
 } from 'react-icons/bi';
 import {
     AppBarTitle,
-    LinkTitle
+    LinkTitle,
+    BoldLink
 } from '../../styles/common/typographies';
 import {
     Div
 } from '../../styles/common/divs';
 import { useTheme } from '../../contexts/themeContext';
+import { useAuth } from '../../contexts/authContext';
+import NavConfig from '../../resources/navs.json';
 
 const NavBar = () => {
     const { currentTheme, dispatch } = useTheme();
     const [checked, setChecked] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
+    const { user, logoutUser } = useAuth();
     const isOpened = Boolean(anchorEl);
 
     const changeTheme = () => {
@@ -48,10 +52,14 @@ const NavBar = () => {
         setAnchorEl(e.currentTarget);
     }
 
+    const handleClickLogout = () => {
+        logoutUser();
+    }
+
     const renderMenuItems = () => {
         return (
             <Div flexDirection="column">
-                {!checked ?
+                {!user ?
                     <>
                         <MenuItem>
                             <Link to="/login">Log in</Link>
@@ -65,11 +73,17 @@ const NavBar = () => {
                         <MenuItem>
                             <Link to="/profile">Profile</Link>
                         </MenuItem>
+                        {NavConfig.map((value, key) => {
+                            return (
+                                <MenuItem key={key}>
+                                    <Link to={`/profile/${value.title.toLowerCase()}`}>
+                                        {value.title}
+                                    </Link>
+                                </MenuItem>
+                            )
+                        })}
                         <MenuItem>
-                            <Link>Renting</Link>
-                        </MenuItem>
-                        <MenuItem>
-                            <Link>Hosting</Link>
+                            <BoldLink onClick={handleClickLogout}>Log out</BoldLink>
                         </MenuItem>
                     </>
 
@@ -125,6 +139,7 @@ const NavBar = () => {
                     <IconButton color="inherit" aria-label="user" aria-controls="main-menu" aria-haspopup="true" onClick={handleMainMenu}>
                         <BiUserCircle />
                     </IconButton>
+                    {user && user.username}
                     {renderMenu()}
                 </Toolbar>
             </Container>

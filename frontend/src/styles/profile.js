@@ -30,3 +30,13 @@ export const UserAvatar = styled(Avatar)`
     width: 10rem;
     height: 10rem;
 `
+
+export const UserVehicleNavDiv = styled(Div)`
+    padding-right: 3rem;
+    justify-content: flex-start;
+`
+
+export const DivVehicleList = styled(Div)`
+    border-left: 1px solid ${props => props.theme.palette.divider};
+`
+

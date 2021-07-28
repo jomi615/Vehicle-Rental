@@ -9,6 +9,7 @@ import {
 import {
     Alert
 } from '../styles/common/alerts';
+import { Div } from '../styles/common/divs';
 
 const ToastContext = React.createContext();
 
@@ -47,12 +48,16 @@ export const ToastProvider = ({ children }) => {
         if (reason === 'clickaway') {
             return;
         }
-        dispatch({type: "closeToast"});
+        dispatch({ type: "closeToast" });
     };
+
+    const handleAlert = (actionType, actionPayload) => {
+        dispatch({ type: actionType, payload: actionPayload });
+    }
 
     const renderToastAlert = () => {
         return (
-            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={toast.isOpened} autoHideDuration={3000} onClose={handleClose}>
+            <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={toast.isOpened} autoHideDuration={2800} onClose={handleClose}>
                 <Alert severity={toast.severity} onClose={handleClose}>
                     {toast.message}
                 </Alert>
@@ -62,7 +67,8 @@ export const ToastProvider = ({ children }) => {
 
     const value = {
         dispatch,
-        renderToastAlert
+        renderToastAlert,
+        handleAlert
     }
 
     return (

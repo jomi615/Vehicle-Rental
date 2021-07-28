@@ -15,14 +15,13 @@ export const Title = styled(Typography).attrs(props => ({
 `
 
 export const SubTitle = styled(Typography).attrs(props => ({
-    component: "h5",
-    variant: "h5"
+    component: "p",
+    variant: "subtitle2"
 }))`
-    font-weight: 500;
-    color: ${props => props.theme.palette.text.primary};
+    color: ${props => props.theme.palette.text.secondary};
 `
 
-export const CardTitle = styled(Typography).attrs(props => ({
+export const SectionTitle = styled(Typography).attrs(props => ({
     component: "h5",
     variant: "h5"
 }))`
@@ -39,6 +38,12 @@ export const AppBarTitle = styled(Typography).attrs(props => ({
 
 export const LinkTitle = styled(Link)`
     color: ${props => props.theme.palette.common.white};
+`
+
+export const BoldLink = styled(Link)`
+    font-weight: 600;
+    text-decoration: underline;
+    color: ${props => props.theme.palette.primary.main};
 `
 
 export const Paragraph = styled(Typography).attrs(props => ({

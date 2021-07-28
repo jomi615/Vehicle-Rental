@@ -8,6 +8,9 @@ const GlobalStyle = createGlobalStyle`
         text-decoration: none;
         color: ${props => props.theme.palette.text.primary};
     }
+    .MuiSelect-select {
+        min-width: 4rem;
+    }
 `
 
 export default GlobalStyle;
