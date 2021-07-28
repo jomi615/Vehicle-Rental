@@ -88,7 +88,7 @@ Rent.updateRental = (vehicle_id, enddate, user_rent , rent_er, result)=>{
   )
 }
 
-router.put('/api/updateRent/:renter_id/:vehicleid/:enddate_id', function(req,res){
+router.put('/api/rental/update/:renter_id/:vehicleid/:enddate_id', function(req,res){
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
@@ -108,7 +108,7 @@ router.put('/api/updateRent/:renter_id/:vehicleid/:enddate_id', function(req,res
     } else res.send(data);
 })
 })
-router.delete('/api/removeRentedVehicle/:vehicle_id', function(req,res){
+router.delete('/api/rental/delete/:vehicle_id', function(req,res){
   Rent.removeRentalByID(req.params.vehicle_id, (err,data)=>{
     if (err) {
       if (err.kind === "not_found") {
@@ -124,7 +124,7 @@ router.delete('/api/removeRentedVehicle/:vehicle_id', function(req,res){
   })
 })
 
-router.get('/api/rentByUser/:user_id', function(req,res){
+router.get('/api/rental/user/:user_id', function(req,res){
   Rent.getRentByUserID(req.params.user_id, (err, data)=>{
     if(err){
       if(err.kind === "not_found"){
@@ -139,7 +139,8 @@ router.get('/api/rentByUser/:user_id', function(req,res){
     } else res.send(data);
   })
 })
-router.get('/api/vehicleRent/:vehicle_id', function(req,res){
+
+router.get('/api/rental/vehicle/:vehicle_id', function(req,res){
   Rent.getRentByVehicleID(req.params.vehicle_id, (err, data)=>{
     if(err){
       if(err.kind === "not_found"){
@@ -157,7 +158,7 @@ router.get('/api/vehicleRent/:vehicle_id', function(req,res){
 
 
 
-router.post('/api/newRental',function(req, res){
+router.post('/api/rental',function(req, res){
     // Validate request
   if (!req.body) {
     res.status(400).send({
