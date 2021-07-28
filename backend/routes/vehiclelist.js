@@ -84,7 +84,7 @@ Vehicle.updateById=(vehicleID, host, result)=>{
 })
 }
 
-router.put('/:updateByID', (req, res)=>{
+router.put('/api/vehiclelist/update/:updateByID', (req, res)=>{
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!"
@@ -105,7 +105,7 @@ router.put('/:updateByID', (req, res)=>{
   })
 })
 
-router.delete('/:id', function(req, res){
+router.delete('/api/vehiclelist/delete/:id', function(req, res){
   Vehicle.removeVehicle(req.params.id, (err, data)=>{
     if (err) {
       if (err.kind === "not_found") {
@@ -121,7 +121,7 @@ router.delete('/:id', function(req, res){
   })
 })
 
-router.get('/vehicleAdd', function(req,res){
+router.get('/api/vehiclelist', function(req,res){
     Vehicle.showVehicle((err, data) => {
         if (err)
           res.status(500).send({
@@ -132,7 +132,7 @@ router.get('/vehicleAdd', function(req,res){
       });
 })
 
-router.get('/vehicleAdd/:id', function(req,res){
+router.get('/api/vehiclelist/:id', function(req,res){
     Vehicle.getVehicleID(req.params.id, (err,data)=>{
         if (err) {
             if (err.kind === "not_found") {
@@ -148,7 +148,7 @@ router.get('/vehicleAdd/:id', function(req,res){
     })
 })
 
-router.post('/', function(req, res){
+router.post('/api/vehiclelist', function(req, res){
   var vehicles={
       "price": req.body.price, 
       "vehicle_name":req.body.vehicle_name, 

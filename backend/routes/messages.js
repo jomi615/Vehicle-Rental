@@ -2,6 +2,7 @@ const app = require('express');
 const router = app.Router();
 var config = require('./db.js');
 var connect = config.db;
+var io = require('socket.io')
 const Messages = function(messages){
     this.from_user = messages.from_user,
     this.to_user = messages.to_user, 
@@ -79,7 +80,7 @@ Messages.updateMessageSent = (user_fro, user_t, date_sent, updateMes, result)=>{
           result(null, res);
     })
 }
-router.put('/updateMessage/:user_from/:user_to/:date_send', function(req, res){
+router.put('/api/sendmessage/update/:user_from/:user_to/:date_send', function(req, res){
     if (!req.body) {
         res.status(400).send({
           message: "Content can not be empty!"
@@ -99,7 +100,7 @@ router.put('/updateMessage/:user_from/:user_to/:date_send', function(req, res){
           } else res.send(data);
     })
 })
-router.delete('/deleteMessageBy/:user_from/:user_to/:date_send', function(req, res){
+router.delete('/api/sendmessage/delete/:user_from/:user_to/:date_send', function(req, res){
     Messages.deleteMessage(req.params.user_from, req.params.user_to, req.params.date_send, (err, data)=>{
         if (err) {
             if (err.kind === "not_found") {
@@ -115,7 +116,7 @@ router.delete('/deleteMessageBy/:user_from/:user_to/:date_send', function(req, r
     })
 })
 
-router.get('/getAllMessages', function(req,res){
+router.get('/api/sendmessage', function(req,res){
     Messages.showAllMessages((err, data) => {
         if (err)
           res.status(500).send({
@@ -126,7 +127,7 @@ router.get('/getAllMessages', function(req,res){
       });
 })
 
-router.get('/getMessagesBy/:send_id', function (req, res){
+router.get('/api/sendmessage/:send_id', function (req, res){
     Messages.showMessagesID(req.params.send_id, (err,data)=>{
         if (err) {
             if (err.kind === "not_found") {
@@ -142,7 +143,7 @@ router.get('/getMessagesBy/:send_id', function (req, res){
     })
 })
 
-router.post('/api/sendMessage', function(req, res){
+router.post('/api/sendmessage', function(req, res){
     if(!req.body){
         res.status(400).send({
             message: "Content can not be empty!"
@@ -160,7 +161,10 @@ router.post('/api/sendMessage', function(req, res){
         message:
           err.message || "Some error occurred while creating new reviews."
       });
-    else res.send(data);
+    else {
+      io.emit('content', req.body); 
+      res.send(data);
+    }
     })
 })
 
