@@ -1,7 +1,27 @@
 const mainPath = "http://localhost:4000/api";
+const userPath = `${mainPath}/user`;
+const vehiclePath = `${mainPath}/vehiclelist`;
+const messagePath = `${mainPath}/sendmessage`;
+const reviewPath = `${mainPath}/review`;
+const vehicleReviewPath = `${mainPath}/vehiclereview`;
+const rentalPath = `${mainPath}/`;
+const deletePath = "/delete";
+const updatePath = "/update";
+const reviewerPath = "/reviewer";
+const revieweePath = "/reviewee";
+
 
 export default URL = {
-    register: `${mainPath}/register`,
-    login: `${mainPath}/login`,
-    // vehicle: `http://localhost:4000/vehicleAdd`
+    vehicle: vehiclePath,
+    user: userPath,
+    message: messagePath,
+    review: reviewPath,
+    vehicleReview: vehicleReviewPath,
+    rental: rentalPath,
+    register: `${userPath}/register`,
+    login: `${userPath}/login`,
+    reviewer: reviewerPath,
+    reviewee: revieweePath,
+    delete: deletePath,
+    update: updatePath
 }

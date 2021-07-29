@@ -8,8 +8,10 @@ import {
     DivVehicleList
 } from '../../styles/profile';
 import {
-    SectionTitle,
-    SubTitle
+    CardTitle,
+    SubTitle,
+    Price,
+    PriceSuffix
 } from '../../styles/common/typographies';
 
 const UserVehicleBody = (props) => {
@@ -22,10 +24,19 @@ const UserVehicleBody = (props) => {
                             Image
                         </Div>
                         <DivVehicleListItemBody ml={2}>
-                            <SectionTitle>
+                            <CardTitle>
                                 {value.vehicle_name}
-                            </SectionTitle>
+                            </CardTitle>
                             <SubTitle>{value.address}</SubTitle>
+                            <Div alignItems="flex-end" flexGrow="1" justifyContent="flex-end">
+                                <Div></Div>
+                                <Div alignItems="center">
+                                    <Price>{value.price}đ</Price>
+                                    <Div ml={1}>
+                                        <PriceSuffix>/ day</PriceSuffix>
+                                    </Div>
+                                </Div>
+                            </Div>
                         </DivVehicleListItemBody>
                     </DivVehicleListItem>
                 )

@@ -25,8 +25,16 @@ export const SectionTitle = styled(Typography).attrs(props => ({
     component: "h5",
     variant: "h5"
 }))`
-    font-weight: 600;
+    font-weight: 500;
     color: ${props => props.theme.palette.text.primary};
+`
+
+export const CardTitle = styled(Typography).attrs(props => ({
+    component: "h3",
+    variant: "h3"
+}))`
+    font-weight: 600;
+    color: ${props => props.theme. palette.text.primary};
 `
 
 export const AppBarTitle = styled(Typography).attrs(props => ({
@@ -50,5 +58,20 @@ export const Paragraph = styled(Typography).attrs(props => ({
     component: "p",
     variant: "body1"
 }))`
+    color: ${props => props.theme.palette.text.primary};
+`
 
+export const Price = styled(Typography).attrs(props => ({
+    component: "p",
+    variant: "h5"
+}))`
+    font-weight: 500;
+    color: ${props => props.theme.palette.primary.main};
+`
+
+export const PriceSuffix = styled(Price).attrs(props => ({
+    component: "p",
+    variant: "h6"
+}))`
+    color: ${props => props.theme.palette.text.primary};
 `
