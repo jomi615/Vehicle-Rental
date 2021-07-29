@@ -3,6 +3,10 @@ const router = app.Router();
 var bcrypt = require('bcryptjs');
 var config = require('./db.js');
 var connect = config.db;
+var session; 
+var salt =10 //any random value
+var crypto = require('crypto')
+
 
 const Users = function(user){
   this.fname = user.fname;
@@ -13,7 +17,8 @@ const Users = function(user){
   this.username = user.username; 
   this.userID = user.userID; 
 }
-Users.createUser = (newUser, result)=>{
+
+Users.createUser =  (newUser, result)=>{
   connect.query("INSERT INTO User SET ?",newUser,(err, res)=>{
     if (err) {
       console.log("error: ", err);
@@ -24,7 +29,7 @@ Users.createUser = (newUser, result)=>{
     result(null, { id: res.insertId, ...newUser });
   })
 }
-Users.getAll = result => {
+Users.getAll =  result => {
   connect.query("SELECT*FROM User", (err, res)=>{
     if(err) {
       console.log("error: ", err);
@@ -36,7 +41,7 @@ Users.getAll = result => {
   })
 }
 
-Users.getID = (user_id, result)=>{
+Users.getID =  (user_id, result)=>{
   connect.query(`SELECT*FROM User WHERE userID = ${user_id}`, (err, res)=>{
     if(err){
       console.log("error: ", err);
@@ -52,7 +57,7 @@ Users.getID = (user_id, result)=>{
   })
 }
 
-Users.removeUser = (user_id, result)=>{
+Users.removeUser =  (user_id, result)=>{
   connect.query("DELETE FROM User WHERE userID = ?", user_id, (err,res)=>{
     if (err) {
       console.log("error: ", err);
@@ -70,7 +75,7 @@ Users.removeUser = (user_id, result)=>{
   })
 }
 
-Users.updateUser = (user_id,user, result)=>{
+Users.updateUser =  (user_id,user, result)=>{
   connect.query("UPDATE User SET fname = ?, lname = ?, email = ?, pass = ?, phone = ?, username = ? WHERE userID = ?",
   [user.fname, user.lname, user.email, user.pass, user.phone, user.username, user_id],
   (err, res)=>{
@@ -153,32 +158,58 @@ router.get('/api/user/:user_id', function(req,res){
    })
 })
 
-router.post('/api/user/register', function(req,res){
-  //const password = await req.body.password;
-  //const saltRounds = 10;
-  //const encryptedPassword = bcrypt.hash(password, saltRounds)
-  var users= new Users({
-     "fname":req.body.fname, 
-     "lname": req.body.lname, 
-     "email":req.body.email,
-     "pass": req.body.pass,
-     "phone": req.body.phone,  
-     "username": req.body.username    
-   })
+router.post('/api/user/register',async function(req,res){
+  /*try {
+
+    const encryptedPassword = await bcrypt.hash(req.body.pass, salt)
+    var users= new Users({
+      "fname":req.body.fname, 
+      "lname": req.body.lname, 
+      "email":req.body.email,
+      "pass": encryptedPassword,
+      "phone": req.body.phone,  
+      "username": req.body.username    
+    });
+   }
+   catch (error){
+    console.log(error);
+   }*/
+   async function digestMessage(message) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(message);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    return hash;
+  }
+   const encrypted = digestMessage("minhlecanh")
+   console.log(encrypted)
+   const encryptedPassword = digestMessage("minhlecanh").then(digestBuffer => console.log(digestBuffer.byteLength));
+  
+   var users= new Users({
+    "fname":req.body.fname, 
+    "lname": req.body.lname, 
+    "email":req.body.email,
+    "pass": encryptedPassword,
+    "phone": req.body.phone,  
+    "username": req.body.username    
+  });
    Users.createUser(users, (err, data)=>{
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Customer."
+          err.message || "Some error occurred while creating the User."
       });
     else res.send(data);
     })
 })
+router.get('/api/logout',  function(req, res){
+  req.session.destroy();
+    res.redirect('/');
+})
 
-router.post('/api/user/login', function(req,res){
+router.post('/api/user/login', async function(req,res){
   var username= req.body.username;
-  var password = req.body.pass;
-  connect.query('SELECT * FROM User WHERE username = ?',[username],  function (error, results, fields) {
+  var password = req.body.pass; 
+  connect.query('SELECT * FROM User WHERE username = ?',[username], async function (error, results, fields) {
     if (error) {
       res.send({
         "code":400,
@@ -186,23 +217,28 @@ router.post('/api/user/login', function(req,res){
       })
     }else{
       if(results.length >0){
-        const comparision = bcrypt.compare(password, results[0].password)
-        if(comparision){
+        const comparison =  await bcrypt.compare(password, results[0].password)
+        if(comparison){
+          /*session=req.session;
+          session.userid=req.body.username;
+          console.log(req.session)*/
             res.send({
+              "code":201,
+              "message":"success",
              results
             })
         }
         else{
           res.send({
-               "code":204,
-               "success":"Username and password does not match"
+               "code":200,
+               "message":"Username and password does not match"
           })
         }
       }
       else{
         res.send({
-          "code":206,
-          "success":"username does not exits"
+          "code":200,
+          "message":"username does not exits"
             });
       }
     }
