@@ -3,7 +3,6 @@ const router = app.Router();
 var bcrypt = require('bcryptjs');
 var config = require('./db.js');
 var connect = config.db;
-var session; 
 var salt =10 //any random value
 var crypto = require('crypto')
 
@@ -158,7 +157,7 @@ router.get('/api/user/:user_id', function(req,res){
    })
 })
 
-router.post('/api/user/register',async function(req,res){
+router.post('/api/authentification/register',async function(req,res){
   try {
     const encryptedPassword = await bcrypt.hash(req.body.pass, salt)
     var users= new Users({
@@ -174,21 +173,7 @@ router.post('/api/user/register',async function(req,res){
    catch (error){
     console.log(error);
    }
-   /*async function digestMessage(message) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(message);
-    const hash = await crypto.subtle.digest('SHA-256', data);
-    return hash;
-  }
-   const encryptedPassword = digestMessage(req.body.pass).then(digestBuffer => console.log(digestBuffer.byteLength));
-   var users= new Users({
-    "fname":req.body.fname, 
-    "lname": req.body.lname, 
-    "email":req.body.email,
-    "pass": encryptedPassword,
-    "phone": req.body.phone,  
-    "username": req.body.username    
-  });*/
+
    Users.createUser(users, (err, data)=>{
     if (err)
       res.status(500).send({
@@ -198,15 +183,13 @@ router.post('/api/user/register',async function(req,res){
     else res.send(data);
     })
 })
-router.get('/api/logout',  function(req, res){
-  req.session.destroy();
-    res.redirect('/');
-})
 
-router.post('/api/user/login',  async function(req,res){
-  var username= req.body.username;
-  var password = req.body.pass; 
-  connect.query('SELECT * FROM User WHERE username = ?',[username], async function (error, results, fields) {
+router.post('/api/authentication/login',  async function(req,res){
+    const sess = req.session;
+    const { username, pass } = req.body
+    sess.username = username
+    sess.password = pass
+  connect.query('SELECT * FROM User WHERE username = ?',[sess.username], async function (error, results, fields) {
     if (error) {
       res.send({
         "code":400,
@@ -214,11 +197,8 @@ router.post('/api/user/login',  async function(req,res){
       })
     }else{
       if(results.length >0){
-        const comparison =  await bcrypt.compare(password, results[0].pass)
+        const comparison =  await bcrypt.compare(sess.password, results[0].pass)
         if(comparison){
-          /*session=req.session;
-          session.userid=req.body.username;
-          console.log(req.session)*/
             res.send({
               "code":201,
               "message":"success",
@@ -241,5 +221,26 @@ router.post('/api/user/login',  async function(req,res){
     }
     });
 })
+
+/*router.get('/api/authentication/logout',  function(req, res){
+  req.session.destroy();
+    res.redirect('/');
+})
+
+router.get('/', function(req,res){
+  const sess = req.session;
+    if (sess.username && sess.password) {
+        if (sess.username) {
+            res.write(`<h1>Welcome ${sess.username} </h1><br>`)
+            res.write(
+                `<h3>This is the Home page</h3>`
+            );
+            res.end('<a href=' + '/api/authentication/logout' + '>Click here to log out</a >')
+        }
+    } else {
+        res.sendFile(__dirname + "/login.html")
+    }
+});
+*/
 
 module.exports = router; 
