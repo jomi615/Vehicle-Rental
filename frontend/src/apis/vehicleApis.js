@@ -7,6 +7,6 @@ export const getAllVehicles = async (req) => {
         return res.data;
     }
     catch {
-        throw new Error()
+        console.log("haha");
     }
 }

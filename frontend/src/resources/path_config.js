@@ -1,4 +1,4 @@
-const mainPath = "http://localhost:4000/api";
+const mainPath = "https://localhost:8000/api";
 const userPath = `${mainPath}/user`;
 const vehiclePath = `${mainPath}/vehiclelist`;
 const messagePath = `${mainPath}/sendmessage`;
@@ -18,8 +18,8 @@ export default URL = {
     review: reviewPath,
     vehicleReview: vehicleReviewPath,
     rental: rentalPath,
-    register: `${userPath}/register`,
-    login: `${userPath}/login`,
+    register: `${mainPath}/register`,
+    login: `${mainPath}/login`,
     reviewer: reviewerPath,
     reviewee: revieweePath,
     delete: deletePath,
