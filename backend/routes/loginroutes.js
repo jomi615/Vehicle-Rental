@@ -159,8 +159,7 @@ router.get('/api/user/:user_id', function(req,res){
 })
 
 router.post('/api/user/register',async function(req,res){
-  /*try {
-
+  try {
     const encryptedPassword = await bcrypt.hash(req.body.pass, salt)
     var users= new Users({
       "fname":req.body.fname, 
@@ -170,20 +169,18 @@ router.post('/api/user/register',async function(req,res){
       "phone": req.body.phone,  
       "username": req.body.username    
     });
+    console.log(encryptedPassword)
    }
    catch (error){
     console.log(error);
-   }*/
-   async function digestMessage(message) {
+   }
+   /*async function digestMessage(message) {
     const encoder = new TextEncoder();
     const data = encoder.encode(message);
     const hash = await crypto.subtle.digest('SHA-256', data);
     return hash;
   }
-   const encrypted = digestMessage("minhlecanh")
-   console.log(encrypted)
-   const encryptedPassword = digestMessage("minhlecanh").then(digestBuffer => console.log(digestBuffer.byteLength));
-  
+   const encryptedPassword = digestMessage(req.body.pass).then(digestBuffer => console.log(digestBuffer.byteLength));
    var users= new Users({
     "fname":req.body.fname, 
     "lname": req.body.lname, 
@@ -191,7 +188,7 @@ router.post('/api/user/register',async function(req,res){
     "pass": encryptedPassword,
     "phone": req.body.phone,  
     "username": req.body.username    
-  });
+  });*/
    Users.createUser(users, (err, data)=>{
     if (err)
       res.status(500).send({
@@ -206,7 +203,7 @@ router.get('/api/logout',  function(req, res){
     res.redirect('/');
 })
 
-router.post('/api/user/login', async function(req,res){
+router.post('/api/user/login',  async function(req,res){
   var username= req.body.username;
   var password = req.body.pass; 
   connect.query('SELECT * FROM User WHERE username = ?',[username], async function (error, results, fields) {
@@ -217,7 +214,7 @@ router.post('/api/user/login', async function(req,res){
       })
     }else{
       if(results.length >0){
-        const comparison =  await bcrypt.compare(password, results[0].password)
+        const comparison =  await bcrypt.compare(password, results[0].pass)
         if(comparison){
           /*session=req.session;
           session.userid=req.body.username;
