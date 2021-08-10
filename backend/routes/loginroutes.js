@@ -186,13 +186,13 @@ router.post('/api/authentication/register',async function(req,res){
 })
 
 router.post('/api/authentication/login',  async function(req,res){
-    const sess =  req.session;
+    /*const sess =  req.session;
     const { username, pass } = await req.body
     sess.username = username
-    sess.password = pass
-    //const username = await req.body.username
-    //const password = await req.body.pass
-  connect.query('SELECT * FROM User WHERE username = ?',[sess.username], async function (error, results, fields) {
+    sess.password = pass*/
+    const username = await req.body.username
+    const password = await req.body.pass
+  connect.query('SELECT * FROM User WHERE username = ?',[username], async function (error, results, fields) {
     if (error) {
       res.send({
         "code":400,
@@ -200,7 +200,7 @@ router.post('/api/authentication/login',  async function(req,res){
       })
     }else{
       if(results.length >0){
-        const comparison =  await bcrypt.compare(sess.password, results[0].pass)
+        const comparison =  await bcrypt.compare(password, results[0].pass)
         if(comparison){
             res.send({
               "code":201,
