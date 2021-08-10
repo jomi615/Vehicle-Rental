@@ -4,16 +4,15 @@ var app = express();
 const session = require('express-session');
 const https = require('https');
 const fs = require('fs');
-const redis = require('redis');
-const connectRedis = require('connect-redis');
+//const redis = require('redis');
+//const connectRedis = require('connect-redis');
 
 
 var privateKey  = fs.readFileSync('backend/localhost-key.pem');
 var certificate = fs.readFileSync('backend/localhost.pem');
 var credentials = {key: privateKey, cert: certificate};
 
-
-const RedisStore = connectRedis(session)
+/*const RedisStore = connectRedis(session)
 //Configure redis client
 const redisClient = redis.createClient({
     host: 'localhost',
@@ -37,7 +36,7 @@ app.use(session({
       httpOnly: false, // if true prevent client side JS from reading the cookie 
       maxAge: 1000 * 60 * 10 // session max age in miliseconds
   }
-}))
+}))*/
 
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
