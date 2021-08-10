@@ -50,7 +50,7 @@ const RegisterPage = () => {
         let req = createRegisterReq();
         try {
             registerUser(req).then((res) => {
-                handleAlert(SEVERITY.success, res.message);
+                // handleAlert(SEVERITY.success, res.message);
             }) 
         }
         catch {

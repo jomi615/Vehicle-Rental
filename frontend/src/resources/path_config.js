@@ -1,4 +1,4 @@
-const mainPath = "https://localhost:8000/api";
+const mainPath = "http://localhost:4000/api";
 const userPath = `${mainPath}/user`;
 const vehiclePath = `${mainPath}/vehiclelist`;
 const messagePath = `${mainPath}/sendmessage`;
@@ -9,6 +9,7 @@ const deletePath = "/delete";
 const updatePath = "/update";
 const reviewerPath = "/reviewer";
 const revieweePath = "/reviewee";
+const authPath = `${mainPath}/authentication`
 
 
 export default URL = {
@@ -18,8 +19,8 @@ export default URL = {
     review: reviewPath,
     vehicleReview: vehicleReviewPath,
     rental: rentalPath,
-    register: `${mainPath}/register`,
-    login: `${mainPath}/login`,
+    register: `${authPath}/register`,
+    login: `${authPath}/login`,
     reviewer: reviewerPath,
     reviewee: revieweePath,
     delete: deletePath,

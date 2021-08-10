@@ -25,10 +25,9 @@ export const AuthProvider = ({children}) => {
     }
 
     const loginUser = async (req) => {
-        login(req).then((res) => {
-            setUser(res.results[0]);
-            return res
-        })
+        const res = await login(req);
+        setUser(res.results[0]);
+        return res;
     }
 
     const logoutUser = async (req) => {

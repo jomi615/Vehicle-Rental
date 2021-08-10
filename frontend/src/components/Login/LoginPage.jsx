@@ -38,7 +38,7 @@ const LoginPage = () => {
         let req = createLoginReq();
         try {
             loginUser(req).then((data) => {
-                handleAlert(SEVERITY.success, "success");
+                handleAlert(SEVERITY.success, data.message);
             })
         }
         catch {
