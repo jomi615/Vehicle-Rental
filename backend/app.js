@@ -2,17 +2,23 @@ const { response } = require("express");
 const express = require("express");
 var app = express();
 const session = require('express-session');
-const https = require('https');
-const fs = require('fs');
+const cookieParser = require("cookie-parser");
 
-//var privateKey  = fs.readFileSync('backend/localhost-key.pem');
-//var certificate = fs.readFileSync('backend/localhost.pem');
-//var credentials = {key: privateKey, cert: certificate};
+// creating 24 hours from milliseconds
+const oneDay = 1000 * 60 * 60 * 24;
 
+//session middleware
+app.use(session({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized:true,
+    cookie: { maxAge: oneDay },
+    resave: false
+}));
 
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
 app.use(express.static(__dirname));
+app.use(cookieParser());
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

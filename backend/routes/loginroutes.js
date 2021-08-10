@@ -181,7 +181,9 @@ router.post('/api/authentication/register',async function(req,res){
         message:
           err.message || "Some error occurred while creating the User."
       });
-    else res.send(data);
+    else res.send({
+      "code":205,
+      "message":data});
     })
 })
 
@@ -244,6 +246,5 @@ router.get('/', function(req,res){
         res.sendFile(__dirname + "/login.html")
     }
 });
-
 
 module.exports = router; 
