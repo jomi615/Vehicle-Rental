@@ -158,7 +158,7 @@ router.get('/api/user/:user_id', function(req,res){
    })
 })
 
-router.post('/api/user/register',async function(req,res){
+router.post('/api/authentication/register',async function(req,res){
   /*try {
 
     const encryptedPassword = await bcrypt.hash(req.body.pass, salt)
@@ -206,7 +206,7 @@ router.get('/api/logout',  function(req, res){
     res.redirect('/');
 })
 
-router.post('/api/user/login', async function(req,res){
+router.post('/api/authentication/login', async function(req,res){
   var username= req.body.username;
   var password = req.body.pass; 
   connect.query('SELECT * FROM User WHERE username = ?',[username], async function (error, results, fields) {

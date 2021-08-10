@@ -4,8 +4,8 @@ var app = express();
 const https = require('https');
 const fs = require('fs');
 var path = require('path');
-var privateKey  = fs.readFileSync('backend/localhost-key.pem','utf8');
-var certificate = fs.readFileSync('backend/localhost.pem','utf8');
+var privateKey  = fs.readFileSync('.cert/localhost-key.pem','utf8');
+var certificate = fs.readFileSync('.cert/localhost.pem','utf8');
 var credentials = {key: privateKey, cert: certificate};
 
 
@@ -15,12 +15,12 @@ const sessions = require('express-session');
 const oneDay = 1000 * 60 * 60 * 24;
 
 //session middleware
-app.use(sessions({
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
-    saveUninitialized:true,
-    cookie: { maxAge: oneDay },
-    resave: false
-}));
+// app.use(sessions({
+//     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+//     saveUninitialized:true,
+//     cookie: { maxAge: oneDay },
+//     resave: false
+// }));
 
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
