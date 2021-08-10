@@ -4,13 +4,29 @@ var app = express();
 const session = require('express-session');
 const https = require('https');
 const fs = require('fs');
+var config = require('./routes/db');
+var connect = config.db;
+var MySQLStore = require('express-mysql-session')(session);
+var options = {
+  connect,
+  schema: {
+		tableName: 'sessions',
+		columnNames: {
+			session_id: 'session_id',
+			expires: 'expires',
+			data: 'data'
+		}
+	}
+};
+
+var sessionStore = new MySQLStore(options);
 //const redis = require('redis');
 //const connectRedis = require('connect-redis');
 
 
-var privateKey  = fs.readFileSync('backend/localhost-key.pem');
-var certificate = fs.readFileSync('backend/localhost.pem');
-var credentials = {key: privateKey, cert: certificate};
+//var privateKey  = fs.readFileSync('backend/localhost-key.pem');
+//var certificate = fs.readFileSync('backend/localhost.pem');
+//var credentials = {key: privateKey, cert: certificate};
 
 /*const RedisStore = connectRedis(session)
 //Configure redis client
@@ -24,10 +40,10 @@ redisClient.on('error', function (err) {
 redisClient.on('connect', function (err) {
     console.log('Connected to redis successfully');
 });
-
+*/
 //session middleware
 app.use(session({
-  store: new RedisStore({ client: redisClient }),
+  store: sessionStore,
   secret: 'secret$%^134',
   resave: false,
   saveUninitialized: false,
@@ -36,7 +52,7 @@ app.use(session({
       httpOnly: false, // if true prevent client side JS from reading the cookie 
       maxAge: 1000 * 60 * 10 // session max age in miliseconds
   }
-}))*/
+}))
 
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
