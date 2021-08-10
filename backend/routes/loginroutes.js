@@ -3,7 +3,7 @@ const router = app.Router();
 var bcrypt = require('bcryptjs');
 var config = require('./db.js');
 var connect = config.db;
-var salt =10 //any random value
+var salt;//any random value
 var crypto = require('crypto')
 
 
@@ -157,8 +157,9 @@ router.get('/api/user/:user_id', function(req,res){
    })
 })
 
-router.post('/api/authentification/register',async function(req,res){
+router.post('/api/authentication/register',async function(req,res){
   try {
+    salt = await bcrypt.genSalt(10);
     const encryptedPassword = await bcrypt.hash(req.body.pass, salt)
     var users= new Users({
       "fname":req.body.fname, 
@@ -185,11 +186,13 @@ router.post('/api/authentification/register',async function(req,res){
 })
 
 router.post('/api/authentication/login',  async function(req,res){
-    const sess = req.session;
-    const { username, pass } = req.body
+    /*const sess =  req.session;
+    const { username, pass } = await req.body
     sess.username = username
-    sess.password = pass
-  connect.query('SELECT * FROM User WHERE username = ?',[sess.username], async function (error, results, fields) {
+    sess.password = pass*/
+    const username = await req.body.username
+    const password = await req.body.pass
+  connect.query('SELECT * FROM User WHERE username = ?',[username], async function (error, results, fields) {
     if (error) {
       res.send({
         "code":400,
@@ -197,7 +200,7 @@ router.post('/api/authentication/login',  async function(req,res){
       })
     }else{
       if(results.length >0){
-        const comparison =  await bcrypt.compare(sess.password, results[0].pass)
+        const comparison =  await bcrypt.compare(password, results[0].pass)
         if(comparison){
             res.send({
               "code":201,
@@ -222,7 +225,7 @@ router.post('/api/authentication/login',  async function(req,res){
     });
 })
 
-/*router.get('/api/authentication/logout',  function(req, res){
+router.get('/api/authentication/logout',  function(req, res){
   req.session.destroy();
     res.redirect('/');
 })
@@ -241,6 +244,6 @@ router.get('/', function(req,res){
         res.sendFile(__dirname + "/login.html")
     }
 });
-*/
+
 
 module.exports = router; 
