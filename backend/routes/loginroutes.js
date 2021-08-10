@@ -188,12 +188,12 @@ router.post('/api/authentication/register',async function(req,res){
 })
 
 router.post('/api/authentication/login',  async function(req,res){
-    /*const sess =  req.session;
+    const sess =  req.session;
     const { username, pass } = await req.body
     sess.username = username
-    sess.password = pass*/
-    const username = await req.body.username
-    const password = await req.body.pass
+    sess.password = pass
+    /*const username = await req.body.username
+    const password = await req.body.pass*/
   connect.query('SELECT * FROM User WHERE username = ?',[username], async function (error, results, fields) {
     if (error) {
       res.send({
