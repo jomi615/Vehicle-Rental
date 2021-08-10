@@ -9,7 +9,7 @@ CREATE TABLE User(
  fname VARCHAR (20) NOT NULL,
  lname VARCHAR (20) NOT NULL, 
  email VARCHAR (50) NOT NULL, 
- pass BINARY (60) NOT NULL,
+ pass VARCHAR (225)  NOT NULL,
  phone VARCHAR (12) NOT NULL,
  userID INT PRIMARY KEY NOT NULL auto_increment,
  username VARCHAR (12) NOT NULL, 
