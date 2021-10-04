@@ -25,6 +25,7 @@ import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
+import moment from 'moment';
 
 
 const Searchbar = (props) => {
@@ -35,9 +36,11 @@ const Searchbar = (props) => {
     const [suggestions, setSuggestions] = useState([]);
     const [startDate, setStartDate] = useState(props.start ? props.start : new Date());
     const [endDate, setEndDate] = useState(props.end ? props.end : new Date());
+    const 
 
     const handleStartDate = (date) => {
         setStartDate(date);
+        console.log(date.format("YYYY-MM-DD"));
     }
 
     const handleEndDate = (date) => {

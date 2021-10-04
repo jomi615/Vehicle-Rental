@@ -16,6 +16,7 @@ import BrowseCards from './BrowseCards';
 const BrowsePage = () => {
     const location = useLocation();
     const queryObj = queryString.parse(location.search);
+    console.log(queryObj);
 
     return (
         <Div>
